@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shenjialong.dao.ArticleMapper">
+	<!-- 查询区间 -->
+	<select id="getArticleList" resultType="map">
+		select * from cms_article a LEFT JOIN cms_user b on a.user_id=b.id
+		<where>
+			<if test="null!=created1 and created1!=''">
+				and created >= #{created1}
+			</if>
+			<if test="null!=created2 and created2!=''">
+				and created &lt;= #{created2}
+			</if>
+			<if test="orderValue == 1">
+				ORDER BY a.created DESC
+			</if>
+			<if test="orderValue == 2">
+				ORDER BY a.commentCnt DESC
+			</if>
+			<if test="orderValue == 3">
+				order by b.username
+			</if>
+		</where>
+	</select>
+</mapper>
